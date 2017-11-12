@@ -1,0 +1,35 @@
+.container-fluid{
+	padding-left: 0;
+	padding-right: 0;
+	margin-right: 0;
+    margin-left: 0;
+}
+#side{
+	background-color: #2f4050;
+	/*padding: 0;*/
+}
+.display-table{
+	display: table;
+	width: 100%;
+}
+
+.display-table-row{
+	display: table-row;
+	width: 100%;
+}
+
+.display-table-cell{
+	display: table-cell;
+	float: none;
+	width: 100%;
+}
+
+/* Pomera slobodan prostor */
+.valig-top{
+	vertical-align: top;
+}
+.header{
+	height: 100px;
+	border: 1px solid red;
+	width: 100%;
+}
