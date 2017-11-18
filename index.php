@@ -18,8 +18,12 @@
 <div class="container" id="vue-app">
 	<div class="row ">
 		<div class="col-md-12">
-			<h3>e order <img src="public/img/menu.png"></h3>
-		</div>
+			<h3 class="pull-left">e order <img src="public/img/menu.png"></h3>
+			<div class="pull-right " style="margin-top: 20px; " >
+				Table: <input type="text" v-model="table" style="width: 40px">
+				<button v-on:click="checkIn()">Check in</button>
+			</div>
+		</div>		
 	</div>
 	
 	<div class="row order_row">

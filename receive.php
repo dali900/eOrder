@@ -1,4 +1,5 @@
 <?php 
+session_start();
 
 if (isset($_POST['order'])) {
   $order = $_POST['order'];
@@ -7,6 +8,7 @@ if (isset($_POST['order'])) {
   fwrite($myfile, $txt);
   fclose($myfile);
 }
+
 
 
 
@@ -59,6 +61,7 @@ fclose($myfile);*/
 <script>
   
       var typing = {status: false, time:0, prev:0};
+      var tables = [];
       // Websocket
       var websocket_server = new WebSocket("ws://localhost:8080/");
       websocket_server.onopen = function(e) {
@@ -83,9 +86,10 @@ fclose($myfile);*/
             <strong id="order_product">#</strong> ${json.product}
           </div>
         </div>`;
+        console.log(getTables());
         switch(json.type) {
           case 'order':
-              row_order.find('#checking').remove();
+              row_order.find('#checking').html("<h4>25</h4>");
               row_order.append(product_item);
             console.log(json);
             break;
@@ -126,6 +130,13 @@ fclose($myfile);*/
             'msg': "Products not available at the moment."
           })
         );
+      }
+
+      function getTables () {
+        $.post('data.php', {get_table: true}, function(data, textStatus, xhr) {
+          tables.push({t: JSON.parse(data).table});
+        });
+        return tables;
       }
 
 
