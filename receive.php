@@ -22,10 +22,8 @@ fclose($myfile);*/
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="bootstrap-3.3.7/css/bootstrap.min.css">
-  <script type="text/javascript" src="jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="public/bootstrap-3.3.7/css/bootstrap.min.css">
+  <script type="text/javascript" src="public/jquery.min.js"></script>
  <title>Sank</title>
 </head>
 <body>
@@ -45,6 +43,8 @@ fclose($myfile);*/
     <div class="row">
       <div class="container">
         <button class="btn btn-lg btn-info" onclick="clearOrders()"> <span class="glyphicon glyphicon-trash"></span> Clear orders</button>
+        <button class="btn btn-lg btn-success pull-right" onclick="checkOrders()"> <span class="glyphicon glyphicon-check"></span> Orders ready! </button> 
+        <button class="btn btn-lg btn-default pull-right" onclick="denyOrders() " style="margin-right: 15px"> <span class="glyphicon glyphicon-cross" ></span> Deny orders </button> 
       </div>
     </div>
   </div>
@@ -52,7 +52,7 @@ fclose($myfile);*/
 </body>
 </html>
 
-<script type="text/javascript" src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="public/bootstrap-3.3.7/js/bootstrap.min.js"></script>
 
 <script>
   
@@ -64,14 +64,17 @@ fclose($myfile);*/
       var result = '';
       if (data !="")
       for (var i = 0; i < data.length; i++) {
-        result += `
-            <div class="col-md-3" v-for="o in orders">    
-              <div class="alert alert-info alert-dismissible" role="alert" >
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" style="font-size: 30px">&times;</span></button>
-                <strong>#</strong> ${data[i]}
-              </div>
-          </div>
-          `   
+         result += `<h4>${data[i].table}</h4>`;
+         for (var j = 0; j < data[i].order.length; j++) {
+           result += `
+              <div class="col-md-3" v-for="o in orders">    
+                <div class="alert alert-info alert-dismissible" role="alert" >
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" style="font-size: 30px">&times;</span></button>
+                  <strong>#</strong> ${data[i].order[j]}
+                </div>
+            </div>
+            `;               
+         }
       }
       else result = "# No orders";
       $('#row_order').html(result);
@@ -86,6 +89,28 @@ fclose($myfile);*/
     $.post('data.php', {clear: true}, function(data, textStatus, xhr) {
       console.log(data);
     });
+  };
+
+  function checkOrders () {
+    $('.alert').removeClass('alert-info alert-warning').addClass('alert-success');
+    websocket_server.send(
+      JSON.stringify({
+        'type':'ordering_status',
+        'comming': true,
+        'msg': "Comming"
+      })
+    );
+  }
+
+  function denyOrders () {
+    $('.alert').removeClass('alert-info alert-success').addClass('alert-warning');
+    websocket_server.send(
+      JSON.stringify({
+        'type':'ordering_status',
+        'comming': false,
+        'msg': "Products not available at the moment."
+      })
+    );
   }
   
 </script>
