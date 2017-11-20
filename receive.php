@@ -92,6 +92,10 @@ fclose($myfile);*/
   
   var row_order = $('#row_order');
   var row_actions = $('.actions');
+  var actions = `
+  
+  `;
+
   setInterval(function () {
     $.post('data.php', {read: true}, function(data, textStatus, xhr) {
       data = JSON.parse(data);
@@ -99,30 +103,32 @@ fclose($myfile);*/
       var result = '';
       if (data !=""){
         for (var i = 0; i < data.length; i++) {
-           result += `<fieldset><legend><h4>${data[i].tab}</h4></legend>`;
-           
+           result += `<fieldset><legend><h4>Table: ${data[i].tab}</h4></legend>`;
+            var products_list = data[i].products.split(',').slice(0,-1);
+            for (var j = 0; j < products_list.length; j++) {
+
              result += `
                 <div class="col-md-3" v-for="o in orders">    
                   <div class="alert alert-info alert-dismissible" role="alert" >
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" style="font-size: 30px">&times;</span></button>
-                    <strong>#</strong> ${data[i].products}
+                    <strong>#</strong> ${products_list[j]}
                   </div>
               </div>
-              </fieldset>
-              `;                        
+              `;       
+           }  
+           result += `
+            <div class="row">
+              <div class="col-md-12">
+                <button class="btn btn-lg btn-info" onclick="clearOrders(${data[i].tab})"> <span class="glyphicon glyphicon-trash"></span> Clear orders</button>
+                <button class="btn btn-lg btn-success pull-right" onclick="checkOrders()"> <span class="glyphicon glyphicon-check"></span> Orders ready! </button> 
+                <button class="btn btn-lg btn-default pull-right" onclick="denyOrders() " style="margin-right: 15px"> <span class="glyphicon glyphicon-cross" ></span> Deny orders </button> 
+              </div>
+            </div>
+           </fieldset>`;               
         }
-        var actions = `
-        <div class="row">
-          <div class="container">
-            <button class="btn btn-lg btn-info" onclick="clearOrders()"> <span class="glyphicon glyphicon-trash"></span> Clear orders</button>
-            <button class="btn btn-lg btn-success pull-right" onclick="checkOrders()"> <span class="glyphicon glyphicon-check"></span> Orders ready! </button> 
-            <button class="btn btn-lg btn-default pull-right" onclick="denyOrders() " style="margin-right: 15px"> <span class="glyphicon glyphicon-cross" ></span> Deny orders </button> 
-          </div>
-        </div>
-        `;
+        
       } else result = "# No orders";
       row_order.html(result);
-      row_actions.html(actions);
     });
   }, 2000);
 
@@ -130,8 +136,8 @@ fclose($myfile);*/
       console.log(data);
     });*/
 
-  function clearOrders () {
-    $.post('data.php', {clear: true}, function(data, textStatus, xhr) {
+  function clearOrders (table) {
+    $.post('data.php', {clear: true, table: table}, function(data, textStatus, xhr) {
       console.log(data);
     });
   };

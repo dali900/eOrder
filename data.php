@@ -19,10 +19,13 @@ if (isset($_POST['read'])) {
 }
 
 if (isset($_POST['clear'])) {
-  $myfile = fopen("order.txt", "w") or die("Unable to open file!");
+  /*$myfile = fopen("order.txt", "w") or die("Unable to open file!");
   fwrite($myfile, "");
   fclose($myfile);
-  echo "Orders empty!";
+  echo "Orders empty!";*/
+  $table = $_POST['table'];
+  DB::query("DELETE FROM c_orders WHERE tab = $table");
+  echo "Table [$table] order deleted!";
 }
 
 /*$orders = explode(",",file_get_contents("order.txt"));
