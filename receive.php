@@ -1,11 +1,24 @@
 <?php 
+include 'db.php';
 
 if (isset($_POST['order'])) {
-  $order = $_POST['order'];
+  /*$order = $_POST['order'];
   $myfile = fopen("order.txt", "a+") or die("Unable to open file!");
   $txt = $order.",";
   fwrite($myfile, $txt);
-  fclose($myfile);
+  fclose($myfile);*/
+  $product = $_POST['order'];
+  $table = $_POST['table'];
+  if (DB::exists($table)) {
+    $products = DB::get("SELECT products FROM c_orders where tab = $table")[0]['products'].$product.',';
+    DB::query("UPDATE c_orders SET products = '$products' WHERE tab = $table");
+    echo "Table [$table] order updated";
+  }else {
+    DB::query("INSERT INTO c_orders (tab,products) VALUES ($table,'$product,')");
+    echo "New [$table] table order saved!";
+  }
+  //
+  die();
 }
 
 
@@ -24,6 +37,24 @@ fclose($myfile);*/
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="public/bootstrap-3.3.7/css/bootstrap.min.css">
   <script type="text/javascript" src="public/jquery.min.js"></script>
+  <style>
+    legend {
+        display: block;
+        width: auto;
+        padding: 0 5px;
+        margin-bottom: 0;
+        font-size: inherit;
+        line-height: inherit;
+        border: auto;
+        border-bottom: none;
+        border-color: #BDBDBD;
+    }
+
+    fieldset {
+        border: 2px groove threedface;
+        padding: 5px;
+    }
+  </style>
  <title>Sank</title>
 </head>
 <body>
@@ -39,14 +70,17 @@ fclose($myfile);*/
           </div>
         </div> -->
       </div>
+      <div class="row actions">
+        
+      </div>
     </div>
-    <div class="row">
+    <!-- <div class="row">
       <div class="container">
         <button class="btn btn-lg btn-info" onclick="clearOrders()"> <span class="glyphicon glyphicon-trash"></span> Clear orders</button>
         <button class="btn btn-lg btn-success pull-right" onclick="checkOrders()"> <span class="glyphicon glyphicon-check"></span> Orders ready! </button> 
         <button class="btn btn-lg btn-default pull-right" onclick="denyOrders() " style="margin-right: 15px"> <span class="glyphicon glyphicon-cross" ></span> Deny orders </button> 
       </div>
-    </div>
+    </div> -->
   </div>
 
 </body>
@@ -56,28 +90,39 @@ fclose($myfile);*/
 
 <script>
   
-
+  var row_order = $('#row_order');
+  var row_actions = $('.actions');
   setInterval(function () {
     $.post('data.php', {read: true}, function(data, textStatus, xhr) {
       data = JSON.parse(data);
       console.log(data);
       var result = '';
-      if (data !="")
-      for (var i = 0; i < data.length; i++) {
-         result += `<h4>${data[i].table}</h4>`;
-         for (var j = 0; j < data[i].order.length; j++) {
-           result += `
-              <div class="col-md-3" v-for="o in orders">    
-                <div class="alert alert-info alert-dismissible" role="alert" >
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" style="font-size: 30px">&times;</span></button>
-                  <strong>#</strong> ${data[i].order[j]}
-                </div>
-            </div>
-            `;               
-         }
-      }
-      else result = "# No orders";
-      $('#row_order').html(result);
+      if (data !=""){
+        for (var i = 0; i < data.length; i++) {
+           result += `<fieldset><legend><h4>${data[i].tab}</h4></legend>`;
+           
+             result += `
+                <div class="col-md-3" v-for="o in orders">    
+                  <div class="alert alert-info alert-dismissible" role="alert" >
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" style="font-size: 30px">&times;</span></button>
+                    <strong>#</strong> ${data[i].products}
+                  </div>
+              </div>
+              </fieldset>
+              `;                        
+        }
+        var actions = `
+        <div class="row">
+          <div class="container">
+            <button class="btn btn-lg btn-info" onclick="clearOrders()"> <span class="glyphicon glyphicon-trash"></span> Clear orders</button>
+            <button class="btn btn-lg btn-success pull-right" onclick="checkOrders()"> <span class="glyphicon glyphicon-check"></span> Orders ready! </button> 
+            <button class="btn btn-lg btn-default pull-right" onclick="denyOrders() " style="margin-right: 15px"> <span class="glyphicon glyphicon-cross" ></span> Deny orders </button> 
+          </div>
+        </div>
+        `;
+      } else result = "# No orders";
+      row_order.html(result);
+      row_actions.html(actions);
     });
   }, 2000);
 

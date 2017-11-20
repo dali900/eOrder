@@ -13,18 +13,19 @@
           this.table = JSON.parse(data).table;
           console.log(this.table);
         });
-        websocket_server.send(
+
+        /*websocket_server.send(
             JSON.stringify({
               'type':'order',
               'product':product,
               'user_id':'TESTING',
               'table': this.table
             })
-          );
+          );*/
         this.showOrder();
-        /*$.post('receive.php', {order: product}, function(data, textStatus, xhr) {
+        $.post('receive.php', {order: product, table: this.table}, function(data, textStatus, xhr) {
           console.log(data);
-        });*/
+        });
       },
       showOrder: function () {
         this.orderHide = false;

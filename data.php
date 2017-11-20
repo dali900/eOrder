@@ -1,10 +1,12 @@
 <?php 
 session_start();
+include 'db.php';
+
 
 if (isset($_POST['read'])) {
   /*$orders = explode(",",rtrim(file_get_contents("order.txt"),","));
   echo json_encode($orders); */ 
-  $orders = [];
+  /*$orders = [];
   if ($file = fopen("order.txt", "r")) {
 	    while(!feof($file)) {
 	        $line = fgets($file);
@@ -12,7 +14,8 @@ if (isset($_POST['read'])) {
 	    }
 	    fclose($file);
 	    echo json_encode($orders);
-	}
+	}*/
+  echo json_encode(DB::get("SELECT * FROM c_orders"));
 }
 
 if (isset($_POST['clear'])) {
