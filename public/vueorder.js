@@ -1,26 +1,29 @@
-  new Vue({
-    el: "#vue-app",
-    data: {
-      orderHide: true,
-      orders: []
+/* Vue JS aplikacija */
+// Salnje porudzubine na websocket server i prikaz iste
+new Vue({
+  el: "#vue-app",
+  data: {
+    orderHide: true,
+    orders: []
+  },
+  methods: {
+    //Salje porudzbinu (pojedinacno svaki proizvod) na svaki klik
+    order: function (product) {
+      this.orders.push(product);
+      websocket_server.send(
+          JSON.stringify({
+            'type':'order',
+            'product':product,
+            'user_id':'TESTING'
+          })
+        );
+      this.showOrder();
+      /*$.post('receive.php', {order: product}, function(data, textStatus, xhr) {
+        console.log(data);
+      });*/
     },
-    methods: {
-      order: function (product) {
-        this.orders.push(product);
-        websocket_server.send(
-            JSON.stringify({
-              'type':'order',
-              'product':product,
-              'user_id':'TESTING'
-            })
-          );
-        this.showOrder();
-        /*$.post('receive.php', {order: product}, function(data, textStatus, xhr) {
-          console.log(data);
-        });*/
-      },
-      showOrder: function () {
-        this.orderHide = false;
-      }
+    showOrder: function () {
+      this.orderHide = false;
     }
-  })
+  }
+})

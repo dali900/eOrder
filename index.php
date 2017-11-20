@@ -21,9 +21,8 @@
 			<h3>e order <img src="public/img/menu.png"></h3>
 		</div>
 	</div>
-	
-	<div class="row order_row">
-	
+	<!-- Meni -->
+	<div class="row order_row">	
 		<div class="col-md-3 ">
 			<div class="dropdown">
 				<button class="dropbtn dropdown-toggle" id="drink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Drinks <img src="public/img/cocktail.png"></button>
@@ -68,10 +67,11 @@
 			</div>
 		</div>
 	</div>
-
+	<!-- Prikaz porudzbine -->
 	<div class="well " id="user_orders" v-bind:class="{hidden: orderHide}" style="margin-top:10px">
 		<h3>Your orders:</h3>
 		<div class="row" >
+			<!-- Interacija kroz niz 'orders' iz Vue JS instance - prikaz porudzbine -->
 			<div class="col-md-3" v-for="o in orders">		
 				<div class="alert alert-info alert-dismissible" role="alert" >
 				  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" style="font-size: 30px">&times;</span></button>
@@ -79,6 +79,7 @@
 				</div>
 			</div>
 		</div>
+		<!-- Poruka sa sanka o statusu porudzbine -->
 		<div class="row hidden" id="order_status">		
 			<div class="alert alert-success alert-dismissible" role="alert" >
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" style="font-size: 30px">&times;</span></button>
@@ -87,6 +88,7 @@
 		</div>
 	</div>
 
+<!-- Link za sank -->
 <div style="position: relative; margin-top: 50px">
 	<a href="receive.php" title="" style="bottom: 0;position: absolute;">Sank</a>
 </div>
