@@ -55,7 +55,7 @@ class Chat implements MessageComponentInterface {
 				foreach ($this->clients as $client) {
 					if ($client->id == "STUFF") {
 						# Salnje porudzbine
-						$client->send(json_encode(array("type"=>$type,"product"=>$product)));
+						$client->send(json_encode(array("type"=>$type,"product"=>$product,"table"=>$data->table)));
 					}
 				}
 				break;

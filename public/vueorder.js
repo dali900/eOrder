@@ -4,7 +4,8 @@ new Vue({
   el: "#vue-app",
   data: {
     orderHide: true,
-    orders: []
+    orders: [],
+    table: null
   },
   methods: {
     //Salje porudzbinu (pojedinacno svaki proizvod) na svaki klik
@@ -13,6 +14,7 @@ new Vue({
       websocket_server.send(
           JSON.stringify({
             'type':'order',
+            'table': this.table,
             'product':product,
             'user_id':'TESTING'
           })
@@ -24,6 +26,13 @@ new Vue({
     },
     showOrder: function () {
       this.orderHide = false;
+    },
+    checkIn: function () {
+      console.log(this.table);
+      $.post('data.php', {table: this.table}, function(data) {
+        console.log(data);
+      });
     }
+
   }
 })

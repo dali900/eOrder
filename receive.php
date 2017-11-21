@@ -1,4 +1,7 @@
 <?php 
+include 'core/init.php';
+
+$orders = DB::get();
 
 if (isset($_POST['order'])) {
   $order = $_POST['order'];
@@ -58,7 +61,11 @@ fclose($myfile);*/
 
 <script>
   
-      var typing = {status: false, time:0, prev:0};
+      $.post('data.php', {read: true}, function(data) {
+        console.log(JSON.parse(data));
+        // Ucitava porudzbine iz baze
+        //loadOrders(data);
+      });
       // Websocket
       var websocket_server = new WebSocket("ws://localhost:8080/");
       websocket_server.onopen = function(e) {
@@ -74,27 +81,7 @@ fclose($myfile);*/
       }
       websocket_server.onmessage = function(e)
       {
-        var json = JSON.parse(e.data);
-        var row_order = $('#row_order');
-        var product_item = `
-        <div class="col-md-3 " v-for="o in orders">    
-          <div class="alert alert-info alert-dismissible" role="alert" >
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" style="font-size: 30px">&times;</span></button>
-            <strong id="order_product">#</strong> ${json.product}
-          </div>
-        </div>`;
-        switch(json.type) {
-          case 'order':
-              row_order.find('#checking').remove();
-              row_order.append(product_item);
-            console.log(json);
-            break;
-
-          case 'dsconn':
-            $('#chat_output').append(json.msg);
-            break;
-
-        }
+        handleOrder(e);
       }
       // Events
       /*$('#chat_input').on('keypress',(function(event) {
@@ -126,6 +113,49 @@ fclose($myfile);*/
             'msg': "Products not available at the moment."
           })
         );
+      }
+
+      function handleOrder (e) {
+        var json = JSON.parse(e.data);
+        var row_order = $('#row_order');
+        var product_item = `
+        <div class="col-md-3 " v-for="o in orders">    
+          <div class="alert alert-info alert-dismissible" role="alert" >
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" style="font-size: 30px">&times;</span></button>
+            <strong id="order_product">#</strong> ${json.product} (Table: ${json.table})
+          </div>
+        </div>`;
+        switch(json.type) {
+          case 'order':
+              row_order.find('#checking').remove();
+              row_order.append(product_item);
+            console.log(json);
+            break;
+
+          case 'dsconn':
+            $('#chat_output').append(json.msg);
+            break;
+        }
+      }
+
+      function loadOrders (data) {
+        var json = JSON.parse(data);
+        var row_order = $('#row_order');
+        row_order.find('#checking').remove();
+        for (var i = 0; i < json.length; i++) {
+          for (var j = 0; j < json[i].products.length; j++) {
+            var product_item = `
+            <div class="col-md-3 " v-for="o in orders">    
+              <div class="alert alert-info alert-dismissible" role="alert" >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" style="font-size: 30px">&times;</span></button>
+                <strong id="order_product">#</strong> ${json[i].products[j].name}
+              </div>
+            </div>`;
+
+            row_order.append(product_item);
+            
+          }
+        }
       }
 
 
