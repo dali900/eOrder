@@ -8,7 +8,6 @@
 	<link rel="stylesheet" type="text/css" href="public/bootstrap-3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="public/style.css">
 	<script type="text/javascript" src="public/jquery.min.js"></script>
-	<script src="public/user_websocket.js"></script>
 	<script src="public/vue.js"></script>
 	<script>
 		
@@ -19,7 +18,7 @@
 <div class="container" id="vue-app">
 	<div class="row ">
 		<div class="col-md-12">
-			<h3 class="pull-left">e order <img src="public/img/menu.png"></h3>
+			<h3 class="pull-left"><a href="index.php" title="eOrder" id="logo">e order <img src="public/img/menu.png"></a></h3>
 			<div class="pull-right " style="margin-top: 20px; " >
 				Table: <input type="text" v-model="table" style="width: 40px">
 				<button v-on:click="checkIn()">Check in</button>

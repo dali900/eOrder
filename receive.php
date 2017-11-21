@@ -1,33 +1,5 @@
 <?php 
-include 'db.php';
-
-if (isset($_POST['order'])) {
-  /*$order = $_POST['order'];
-  $myfile = fopen("order.txt", "a+") or die("Unable to open file!");
-  $txt = $order.",";
-  fwrite($myfile, $txt);
-  fclose($myfile);*/
-  $product = $_POST['order'];
-  $table = $_POST['table'];
-  if (DB::exists($table)) {
-    $products = DB::get("SELECT products FROM c_orders where tab = $table")[0]['products'].$product.',';
-    DB::query("UPDATE c_orders SET products = '$products' WHERE tab = $table");
-    echo "Table [$table] order updated";
-  }else {
-    DB::query("INSERT INTO c_orders (tab,products) VALUES ($table,'$product,')");
-    echo "New [$table] table order saved!";
-  }
-  //
-  die();
-}
-
-
-
-/*$myfile = fopen("order.txt", "a+") or die("Unable to open file!");
-$txt = "Beer";
-fwrite($myfile, $txt);
-fclose($myfile);*/
-
+include 'core/init.php';
 
  ?>
 
@@ -92,10 +64,8 @@ fclose($myfile);*/
   
   var row_order = $('#row_order');
   var row_actions = $('.actions');
-  var actions = `
-  
-  `;
 
+  // Ucitavanje porudzbine
   setInterval(function () {
     $.post('data.php', {read: true}, function(data, textStatus, xhr) {
       data = JSON.parse(data);
@@ -104,14 +74,15 @@ fclose($myfile);*/
       if (data !=""){
         for (var i = 0; i < data.length; i++) {
            result += `<fieldset><legend><h4>Table: ${data[i].tab}</h4></legend>`;
-            var products_list = data[i].products.split(',').slice(0,-1);
+            var products_list = data[i].products;
             for (var j = 0; j < products_list.length; j++) {
 
              result += `
                 <div class="col-md-3" v-for="o in orders">    
                   <div class="alert alert-info alert-dismissible" role="alert" >
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" style="font-size: 30px">&times;</span></button>
-                    <strong>#</strong> ${products_list[j]}
+                    <strong>#</strong> ${products_list[j].name}, Kolicina: ${products_list[j].quantity}
+                   , cena: ${products_list[j].price}
                   </div>
               </div>
               `;       
@@ -132,10 +103,7 @@ fclose($myfile);*/
     });
   }, 2000);
 
-  /*$.post('data.php', {read: true}, function(data, textStatus, xhr) {
-      console.log(data);
-    });*/
-
+  // Brisanje odredjene porudzbine
   function clearOrders (table) {
     $.post('data.php', {clear: true, table: table}, function(data, textStatus, xhr) {
       console.log(data);
@@ -144,24 +112,10 @@ fclose($myfile);*/
 
   function checkOrders () {
     $('.alert').removeClass('alert-info alert-warning').addClass('alert-success');
-    websocket_server.send(
-      JSON.stringify({
-        'type':'ordering_status',
-        'comming': true,
-        'msg': "Comming"
-      })
-    );
   }
 
   function denyOrders () {
     $('.alert').removeClass('alert-info alert-success').addClass('alert-warning');
-    websocket_server.send(
-      JSON.stringify({
-        'type':'ordering_status',
-        'comming': false,
-        'msg': "Products not available at the moment."
-      })
-    );
   }
   
 </script>

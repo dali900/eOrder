@@ -81,6 +81,11 @@ body{
     display: none;
 }
 
+#logo{color:black;}
+#logo:hover {
+    text-decoration: none;
+}
+
 
 @media screen and (max-width: 992px) {
 
