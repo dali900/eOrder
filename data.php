@@ -1,8 +1,10 @@
 <?php 
 include 'core/init.php';
 if (isset($_POST['read'])) {
-  /*$orders = explode(",",rtrim(file_get_contents("order.txt"),","));
-  */  
+/*
+  data.php
+  Prihvatanje ajax zahteva za upravljanje porudzbinom
+*/
   $orders = DB::get();
   echo json_encode($orders);
 }

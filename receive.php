@@ -11,14 +11,6 @@ if (isset($_POST['order'])) {
   fclose($myfile);
 }
 
-
-
-/*$myfile = fopen("order.txt", "a+") or die("Unable to open file!");
-$txt = "Beer";
-fwrite($myfile, $txt);
-fclose($myfile);*/
-
-
  ?>
 
 <!DOCTYPE html>
