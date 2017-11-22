@@ -3,7 +3,7 @@ session_start();
 include 'core/init.php';
 /*
 	data.php
-	Prihvatanje ajax zahteva za upravljanje sa porudzbinom
+	Prihvatanje ajax zahteva za upravljanje porudzbinom
  */
 
 # Ucitavanje porudzbine iz baze
