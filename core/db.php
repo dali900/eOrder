@@ -43,7 +43,7 @@ class DB
 	}
 
 }
-
+printr($config);
 DB::init($config->db);
 //echo $config->db->dbname;
 //printr(DB::get("SELECT * FROM c_orders"));
