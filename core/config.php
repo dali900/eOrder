@@ -16,7 +16,7 @@ return [
 	],*/
 	# OpenShift Cloud
 	"db"=> [
-		"servername" => "mysql://mysql:3306/",
+		"servername" => "localhost",
 		"username" => "eorder",
 		"password" => "eorder",
 		"dbname" => "eorder"
