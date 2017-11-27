@@ -95,6 +95,8 @@
 	<a href="receive.php" title="" style="bottom: 0;position: absolute;">Sank</a>
 </div>
 
+<div id="app"></div>
+
 </div>
 
 <script type="text/javascript" src="public/bootstrap-3.3.7/js/bootstrap.min.js"></script>
@@ -103,3 +105,4 @@
 
 <script type="text/javascript" src="public/vueorder.js"></script>
 <script type="text/javascript" src="public/script.js"></script>
+    <script src="dist/build.js"></script>
