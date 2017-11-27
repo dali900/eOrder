@@ -1,7 +1,11 @@
 import Vue from 'vue'
-import App from './App.vue'
+import Menu from './Menu.vue'
 
 new Vue({
   el: '#app',
-  render: h => h(App)
-})
+  components: {
+  	"app-menu": Menu
+  }
+  //render: h => h(Menu),
+
+});
