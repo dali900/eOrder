@@ -15,8 +15,8 @@
 </head>
 <body>
 
-<div class="container" id="vue-app">
-	<div class="row ">
+<!--<div class="container" id="vue-app">
+	 <div class="row ">
 		<div class="col-md-12">
 			<h3 class="pull-left"><a href="index.php" title="eOrder" id="logo">e order <img src="public/img/menu.png"></a></h3>
 			<div class="pull-right " style="margin-top: 20px; " >
@@ -93,10 +93,12 @@
 
 <div style="position: relative; margin-top: 50px">
 	<a href="receive.php" title="" style="bottom: 0;position: absolute;">Sank</a>
-</div>
+</div> 
 
-<div id="app"></div>
+</div>-->
 
+<div id="vue-app">
+	<!-- <app-menu></app-menu> -->
 </div>
 
 <script type="text/javascript" src="public/bootstrap-3.3.7/js/bootstrap.min.js"></script>
@@ -105,4 +107,5 @@
 
 <script type="text/javascript" src="public/vueorder.js"></script>
 <script type="text/javascript" src="public/script.js"></script>
+<script src="https://js.pusher.com/4.1/pusher.min.js"></script>
     <script src="dist/build.js"></script>

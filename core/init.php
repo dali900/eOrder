@@ -1,4 +1,6 @@
 <?php 
+include "./vendor/autoload.php";
+
 # Helpers
 function printr($data){
 	echo "<pre>";

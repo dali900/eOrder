@@ -59,14 +59,25 @@ include 'core/init.php';
 </html>
 
 <script type="text/javascript" src="public/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-
+<script src="https://js.pusher.com/4.1/pusher.min.js"></script>
 <script>
   
   var row_order = $('#row_order');
   var row_actions = $('.actions');
+  getOrders();
+
+  
+  var pusher = new Pusher('47588a2db3baf0214bef', {
+      cluster: 'eu'
+    });
+     var channel = pusher.subscribe('ch1');
+     channel.bind('ev1', function(data) {
+      console.log('PUSHER: ' + data.message);
+      getOrders();     
+  });
 
   // Ucitavanje porudzbine
-  setInterval(function () {
+  function getOrders () {
     $.post('data.php', {read: true}, function(data, textStatus, xhr) {
       data = JSON.parse(data);
       console.log(data);
@@ -100,14 +111,15 @@ include 'core/init.php';
         
       } else result = "# No orders";
       row_order.html(result);
-    });
-  }, 2000);
+    }); 
+  }
 
   // Brisanje odredjene porudzbine
   function clearOrders (table) {
     $.post('data.php', {clear: true, table: table}, function(data, textStatus, xhr) {
       console.log(data);
     });
+    getOrders();
   };
 
   function checkOrders () {

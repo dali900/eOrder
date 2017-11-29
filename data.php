@@ -28,7 +28,31 @@ if (isset($_POST['order'])) {
     DB::query("INSERT INTO c_orders (tab,products) VALUES ($table,'$products_serialized,')");
     echo "New [$table] table order saved!";
   }
-  //
+  //Pusher
+
+$options = array(
+    'cluster' => 'eu',
+    'encrypted' => false
+  );
+  $pusher = new Pusher\Pusher(
+    '47588a2db3baf0214bef',
+    'd5d40d8884c6a2404fac',
+    '437558',
+    $options
+  );
+
+  $data['message'] = $product;
+
+class MyLogger {
+  public function log( $msg ) {
+    print_r( $msg . "\n" );
+  }
+}
+
+  $pusher->set_logger( new MyLogger() );
+  echo "<pre>";
+  $pusher->trigger(['ch1'], 'ev1', $data);
+
   die();
 }
 

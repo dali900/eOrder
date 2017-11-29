@@ -11,7 +11,8 @@
     "myweb": "cross-env NODE_ENV=development webpack --hot"
   },
   "dependencies": {
-    "vue": "^2.4.4"
+    "vue": "^2.4.4",
+    "vue-echo": "^1.0.1"
   },
   "browserslist": [
     "> 1%",

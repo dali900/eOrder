@@ -1,6 +1,6 @@
 <template>
 
-	<div class="container" id="vue-app">
+	<div class="container" >
 		<div class="row ">
 			<div class="col-md-12">
 				<h3 class="pull-left"><a href="index.php" title="eOrder" id="logo">e order <img src="public/img/menu.png"></a></h3>
@@ -93,7 +93,8 @@ export default {
     return {
     	orderHide: true,
       orders: [],
-      table: 0
+      table: 0,
+      pusher: null
     }
   },
   methods: {
@@ -117,11 +118,25 @@ export default {
     // Check in gosta za odredjeni sto
     checkIn: function () {
       console.log(this.table);
+      
       $.post('data.php', {table: this.table}, function(data, textStatus, xhr) {
         console.log(data);
       });
-    }
+    },
+    
   },
+  mounted(){
+  	/*this.$echo.channel('ch1').listen('ev1', (payload) => {
+      console.log("PUSHER ECHO::::: "+payload.message);
+    });*/
+  	var pusher = new Pusher('47588a2db3baf0214bef', {
+      cluster: 'eu'
+    });
+     var channel = pusher.subscribe('ch1');
+     channel.bind('ev1', function(data) {
+      console.log('PUSHER: ' + data.message);
+    });
+  }
 
 
 }
