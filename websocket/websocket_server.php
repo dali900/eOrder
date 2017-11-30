@@ -8,6 +8,8 @@ use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 
+use Ratchet\Http\OriginCheck;
+
 class Chat implements MessageComponentInterface {
 	protected $clients;
 	protected $users;
@@ -76,9 +78,20 @@ class Chat implements MessageComponentInterface {
 		$conn->close();
 	}
 }
+
+
 $server = IoServer::factory(
-	new HttpServer(new WsServer(new Chat())),
+	new HttpServer(
+		new WsServer(
+			new Chat()
+		)
+	),
 	8080
 );
+
 $server->run();
+
+/*$app = new Ratchet\App('192.168.0.107', 8181, '0.0.0.0');
+$app->route('/', new Chat(), ['*']);
+$app->run();*/
 ?>
