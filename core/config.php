@@ -8,19 +8,19 @@ return [
 		"dbname" => "epiz_21050499_demo"
 	]*/
 	# Localhost
-	/*"db"=> [
+	"db"=> [
 		"servername" => "localhost",
 		"username" => "root",
 		"password" => "",
 		"dbname" => "eorder"
-	],*/
+	],
 	# OpenShift Cloud
-	"db"=> [
+	/*"db"=> [
 		"servername" => "localhost",
 		"username" => "eorder",
 		"password" => "eorder",
 		"dbname" => "eorder"
-	],
+	],*/
 	"error_reporting" => -1
 ]
  ?>
