@@ -12,7 +12,7 @@ class DB
 
 	public static function init($db)
 	{
-		self::$conn = new PDO("mysql:host={$db->servername};dbname={$db->dbname}", $db->username, $db->password);
+		self::$conn = new PDO("mysql:host={$db->servername};dbname={$db->dbname};port{$db->port}", $db->username, $db->password);
 		self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 	# Select
